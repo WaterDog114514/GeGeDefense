@@ -1,0 +1,41 @@
+ManifestFileVersion: 0
+CRC: 441126368
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 339b2f0db50ec2b0c6aa6774eea54524
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: aeb7c90c21699ec2a32648de956931bd
+HashAppended: 0
+ClassTypes:
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f1b3b4b945939a54ea0b23d3396115fb, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: spine-unity
+  ClassName: Spine.Unity.BlendModeMaterials
+Assets:
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21_Controller.controller"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21.atlas.txt"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21.png"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21_SkeletonData.asset"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21_Atlas.asset"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21_Material.mat"
+- "Assets/ProjectABPack/Character/lizhua/\u5229\u722A\u5C71\u9E21.json"
+Dependencies: []

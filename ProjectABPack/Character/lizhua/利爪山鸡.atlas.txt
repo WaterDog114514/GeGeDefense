@@ -1,0 +1,76 @@
+
+利爪山鸡.png
+size: 647,539
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+BODY
+  rotate: true
+  xy: 2, 248
+  size: 289, 283
+  orig: 289, 284
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 2, 4
+  size: 277, 242
+  orig: 288, 251
+  offset: 5, 5
+  index: -1
+L_Hand_arm
+  rotate: true
+  xy: 518, 104
+  size: 146, 127
+  orig: 146, 127
+  offset: 0, 0
+  index: -1
+L_Hand_paw
+  rotate: true
+  xy: 281, 14
+  size: 232, 150
+  orig: 233, 150
+  offset: 0, 0
+  index: -1
+Left_Eye
+  rotate: false
+  xy: 321, 253
+  size: 31, 41
+  orig: 33, 43
+  offset: 1, 1
+  index: -1
+R_HAND
+  rotate: true
+  xy: 287, 296
+  size: 241, 133
+  orig: 243, 133
+  offset: 1, 0
+  index: -1
+Right_Eye
+  rotate: false
+  xy: 287, 249
+  size: 32, 45
+  orig: 34, 47
+  offset: 1, 1
+  index: -1
+left_leg
+  rotate: true
+  xy: 422, 252
+  size: 127, 173
+  orig: 164, 188
+  offset: 0, 2
+  index: -1
+pifeng
+  rotate: true
+  xy: 433, 2
+  size: 248, 83
+  orig: 249, 86
+  offset: 0, 2
+  index: -1
+right_leg
+  rotate: true
+  xy: 422, 381
+  size: 156, 188
+  orig: 164, 188
+  offset: 8, 0
+  index: -1

@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 4287714492
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a90c4cfb72ebda03438f3a36f1c3d8a8
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 9c756d07f8589cf04ef96230377a972a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/ProjectABPack/Prefab/CharacterPrefab.prefab
+Dependencies: []

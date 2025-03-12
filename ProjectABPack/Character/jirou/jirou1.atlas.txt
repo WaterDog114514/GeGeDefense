@@ -1,0 +1,62 @@
+
+jirou1.png
+size: 793,541
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body
+  rotate: true
+  xy: 477, 193
+  size: 346, 314
+  orig: 356, 314
+  offset: 0, 0
+  index: -1
+Left_Arm
+  rotate: false
+  xy: 405, 17
+  size: 168, 141
+  orig: 169, 142
+  offset: 1, 1
+  index: -1
+Left_Eye
+  rotate: false
+  xy: 704, 149
+  size: 43, 42
+  orig: 45, 46
+  offset: 1, 2
+  index: -1
+Right_Eye
+  rotate: false
+  xy: 704, 149
+  size: 43, 42
+  orig: 45, 46
+  offset: 1, 2
+  index: -1
+Left_Hand
+  rotate: true
+  xy: 2, 11
+  size: 147, 211
+  orig: 149, 213
+  offset: 1, 1
+  index: -1
+left_leg
+  rotate: false
+  xy: 575, 18
+  size: 127, 173
+  orig: 164, 188
+  offset: 0, 2
+  index: -1
+right_leg
+  rotate: true
+  xy: 215, 2
+  size: 156, 188
+  orig: 164, 188
+  offset: 8, 0
+  index: -1
+图层 3
+  rotate: false
+  xy: 2, 160
+  size: 473, 379
+  orig: 475, 381
+  offset: 1, 1
+  index: -1

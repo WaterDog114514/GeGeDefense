@@ -16,6 +16,7 @@ public abstract class ManagedSingleton<T> : ISystem where T : class, new()
         instance = this as T;
         Initialized();
     }
+
     /// <summary>
     /// 初始化方法，当此系统刚刚创建时候会调用
     /// </summary>

@@ -11,6 +11,16 @@ public class WeightedRandomSelector<T>
 {
     private Dictionary<T, float> itemWeights = new Dictionary<T, float>(); // 存储物品及其权重
     private float totalWeight = 0; // 记录所有权重的总和
+    private System.Random random; // 使用 System.Random 替代 UnityEngine.Random
+
+    /// <summary>
+    /// 构造函数，初始化随机数生成器并设置种子
+    /// </summary>
+    /// <param name="seed">随机种子</param>
+    public WeightedRandomSelector(int seed)
+    {
+        random = new System.Random(seed); // 使用种子初始化随机数生成器
+    }
 
     /// <summary>
     /// 添加一个物品，并指定其权重。
@@ -51,7 +61,8 @@ public class WeightedRandomSelector<T>
             throw new InvalidOperationException("没有可选项！");
         }
 
-        float randomValue = UnityEngine.Random.Range(0, totalWeight);
+        // 使用 System.Random 生成随机值
+        float randomValue = (float)random.NextDouble() * totalWeight;
         float cumulativeSum = 0;
 
         // 遍历字典中的物品，并根据累积权重判断选中哪一个

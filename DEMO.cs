@@ -4,28 +4,35 @@ using WDFramework;
 
 public class DEMO : MonoBehaviour
 {
-    private void Start()
+    void Start()
     {
-        //ResLoader.Instance.LoadAB_Async<SkeletonDataAsset>(E_ABPackName.character, "利爪山鸡_SkeletonData", (RES) =>
-        //{
-        var dede = DefenseHeroFactory.Instance.CreateCharacter(1);
-        var js = dede.GetComponent<BaseCharacter>();
-        //});
-        //);
-        //(E_ABPackName, string)[] cc = { () };
-        //ResLoader.Instance.CreatePreloadTaskFromPaths(cc
-        // , (res) => {
 
+    }
+    public int seed = 12345;
+    private void OnGUI()
+    {
+       
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            // 使用种子初始化
+            var weightedSelector = new WeightedRandomSelector<string>(seed);
+            var equalSelector = new EqualRandomSelector<string>(seed);
 
-        //     Debug.Log(res);
-        //     Debug.Log(ResLoader.Instance.dic_LoadedRes);
-        // });
-        //ResLoader.Instance.StartPreload();
-        //var DATA = ExcelBinarayLoader.Instance.GetDataContainer(typeof(DefenseHeroConfiguration));
-        //var DATA2 = ExcelBinarayLoader.Instance.GetDataContainer<EnemyConfiguration>();
-        //var DATA3 = ExcelBinarayLoader.Instance.GetDataContainer<EnemyConfiguration>();
-        //Debug.Log(123);
+            // 添加物品
+            weightedSelector.AddItem("Apple", 1);
+            weightedSelector.AddItem("Banana", 2);
+            weightedSelector.AddItem("Cherry", 3);
 
+            equalSelector.AddItem("Apple");
+            equalSelector.AddItem("Banana");
+            equalSelector.AddItem("Cherry");
 
+            // 获取随机物品
+            Debug.Log("Weighted Random Item: " + weightedSelector.GetRandomItem());
+            Debug.Log("Equal Random Item: " + equalSelector.GetRandomItem());
+        }
     }
 }

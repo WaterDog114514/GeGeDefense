@@ -1,12 +1,7 @@
 {
-    "name": "WDFrameworkRuntime",
+    "name": "WDProjectSetting",
     "rootNamespace": "",
-    "references": [
-        "Assembly-CSharp",
-        "Unity.TextMeshPro",
-        "spine-unity",
-        "WDProjectSetting"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

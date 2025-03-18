@@ -12,11 +12,10 @@ public enum E_FrameworkEvent
     /// <summary>
     /// 改变游戏阶段，一般用在监听系统注册，加载逻辑
     /// </summary>
-    ChangePhase,
     ChangeScene,
     /// <summary>
     /// 切换游戏生命周期
     /// </summary>
-    TransitionE_LifeCycleState
-     
+    ChangeLifeCycle
+
 }

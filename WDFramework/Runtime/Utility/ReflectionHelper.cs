@@ -13,16 +13,26 @@ using System.Reflection;
 public static class ReflectionHelper
 {
     /// <summary>
-    /// 获取某类型的所有子类
+    /// 获取某类型的所有子类（包括所有已加载的程序集）
     /// </summary>
-    /// <param name="baseType"></param>
-    /// <returns></returns>
+    /// <param name="baseType">基类类型</param>
+    /// <returns>所有子类的类型列表</returns>
     public static List<Type> GetSubclasses(Type baseType)
     {
-        return Assembly.GetAssembly(baseType)
-                       .GetTypes()
-                       .Where(t => t.IsSubclassOf(baseType))
-                       .ToList();
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(assembly =>
+            {
+                try
+                {
+                    return assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    return ex.Types.Where(t => t != null);
+                }
+            })
+            .Where(t => t != null && t.IsClass && !t.IsAbstract && t.IsSubclassOf(baseType))
+            .ToList();
     }
 
 
@@ -52,23 +62,6 @@ public static class ReflectionHelper
         }
         return null; // 如果没有找到，返回 null
     }
-    /// <summary>
-    /// 获取所有程序集中，目标类型的所有子类
-    /// </summary>
-    /// <param name="targetType"></param>
-    /// <returns></returns>
-    public static List<Type> GetGenericSubClasses(Type targetType)
-    {
-        // 获取所有程序集中的所有类型
-        var allTypes = AppDomain.CurrentDomain.GetAssemblies() .SelectMany(assembly => assembly.GetTypes());
-        // 找到所有继承自指定泛型基类的子类
-        var subclassesTypes = allTypes
-            .Where(t => IsSubclassOfGeneric(t, targetType) && !t.IsAbstract) // 过滤掉抽象类
-            .ToList();
-
-        return subclassesTypes;
-    }
-
     /// <summary>
     /// 判断某个类型是否继承自指定的泛型基类
     /// </summary>

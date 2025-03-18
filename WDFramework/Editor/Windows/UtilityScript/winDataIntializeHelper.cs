@@ -34,7 +34,7 @@ namespace WDEditor
             }
             else IsChecked = true;
             //获取到所有窗口子类型
-            var winTypes = ReflectionHelper.GetGenericSubClasses(typeof(BaseWindow<,>));
+            var winTypes = ReflectionHelper.GetSubclasses(typeof(BaseWindow<,>));
             //初始化字典
             foreach (var type in winTypes)
             {

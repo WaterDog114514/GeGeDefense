@@ -7,21 +7,19 @@ using UnityEngine;
 /// 适用于在多个元素中，根据各自的权重值进行随机抽取。
 /// </summary>
 /// <typeparam name="T">泛型 T，表示可以是任何类型（如字符串、整数、类对象等）。</typeparam>
-public class WeightedRandomSelector<T>
+public class WeightedRandomSelector<T> : RandomSelector
 {
-    private Dictionary<T, float> itemWeights = new Dictionary<T, float>(); // 存储物品及其权重
-    private float totalWeight = 0; // 记录所有权重的总和
-    private System.Random random; // 使用 System.Random 替代 UnityEngine.Random
-
+    // 存储物品及其权重
+    private Dictionary<T, float> itemWeights = new Dictionary<T, float>();
+    // 记录所有权重的总和
+    private float totalWeight = 0;
     /// <summary>
     /// 构造函数，初始化随机数生成器并设置种子
     /// </summary>
     /// <param name="seed">随机种子</param>
-    public WeightedRandomSelector(int seed)
+    public WeightedRandomSelector(int seed) : base(seed)
     {
-        random = new System.Random(seed); // 使用种子初始化随机数生成器
     }
-
     /// <summary>
     /// 添加一个物品，并指定其权重。
     /// </summary>
@@ -76,5 +74,9 @@ public class WeightedRandomSelector<T>
         }
 
         return default; // 理论上不会到这里，除非计算错误
+    }
+    public void ClearItems()
+    {
+        itemWeights.Clear();
     }
 }

@@ -13,6 +13,14 @@ public abstract class ManagedMonoSingleton<T> : MonoBehaviour, ISystem where T :
     private static T instance;
     //用于加锁的对象
     protected static readonly object lockObj = new object();
+    protected void Awake()
+    {
+        Initialized();
+    }
+    /// <summary>
+    /// 初始化方法，当此系统刚刚创建时候会调用
+    /// </summary>
+    public abstract void Initialized();
     //属性的方式
     public static T Instance
     {
@@ -44,6 +52,7 @@ public abstract class ManagedMonoSingleton<T> : MonoBehaviour, ISystem where T :
         obj.name = typeof(T).ToString();
         //动态挂载对应的 单例模式脚本
         instance = obj.AddComponent<T>();
+       
         //过场景时不移除对象 保证它在整个游戏生命周期中都存在
         DontDestroyOnLoad(obj);
         return instance;

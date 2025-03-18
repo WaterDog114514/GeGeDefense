@@ -6,20 +6,16 @@ using UnityEngine;
 /// 均等随机器
 /// </summary>
 /// <typeparam name="T"></typeparam>
-public class EqualRandomSelector<T>
+public class EqualRandomSelector<T> : RandomSelector
 {
     private List<T> items = new List<T>(); // 存储物品列表
-    private System.Random random; // 使用 System.Random 替代 UnityEngine.Random
-
     /// <summary>
     /// 构造函数，初始化随机数生成器并设置种子
     /// </summary>
     /// <param name="seed">随机种子</param>
-    public EqualRandomSelector(int seed)
+    public EqualRandomSelector(int seed) : base(seed)
     {
-        random = new System.Random(seed); // 使用种子初始化随机数生成器
     }
-
     /// <summary>
     /// 添加一个物品
     /// </summary>
@@ -28,7 +24,6 @@ public class EqualRandomSelector<T>
     {
         items.Add(item);
     }
-
     /// <summary>
     /// 随机选择一个物品
     /// </summary>
@@ -44,4 +39,5 @@ public class EqualRandomSelector<T>
         int randomIndex = random.Next(0, items.Count);
         return items[randomIndex];
     }
+
 }

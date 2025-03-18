@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class InputManager : Singleton<InputManager>, IFrameworkSystem
+public class InputManager : Singleton<InputManager>, IFrameworkSystem,IMonoUpdate
 {
     /// <summary>
     /// 一个事件只能绑定一个输入信息，一个输入信息包括两个热键或单个鼠标事件
@@ -15,18 +15,14 @@ public class InputManager : Singleton<InputManager>, IFrameworkSystem
     {
         Debug.Log("已经初始化输入系统");
         //添加输入监听
-        UpdateSystem.Instance.AddUpdateListener(E_UpdateLayer.FrameworkSystem,InputUpdate);
+        UpdateSystem.Instance.AddUpdateListener(E_UpdateLayer.FrameworkSystem,this);
         return Instance ;
     }
-
     //是否开启了输入系统检测
     private bool isOpenInputCheck = true;
     public InputManager()
     {
     }
-
-
-
     /// <summary>
     /// 开启或者关闭我们的输入管理模块的检测
     /// </summary>
@@ -254,7 +250,20 @@ public class InputManager : Singleton<InputManager>, IFrameworkSystem
 
     }
     #endregion
-    private void InputUpdate()
+    
+    //读取配置文件逻辑
+    public void ReadConfig()
+    {
+        throw new NotImplementedException();
+    }
+    //保存配置文件逻辑
+    public void SaveConfig()
+    {
+        throw new NotImplementedException("meixie");
+
+    }
+    //更新逻辑
+    public void  MonoUpdate()
     {
         //如果外部没有开启检测功能 就不要检测
         if (!isOpenInputCheck)
@@ -270,17 +279,4 @@ public class InputManager : Singleton<InputManager>, IFrameworkSystem
             info.TriggerUpdate();
         }
     }
-    //读取配置文件逻辑
-    public void ReadConfig()
-    {
-        throw new NotImplementedException();
-    }
-    //保存配置文件逻辑
-    public void SaveConfig()
-    {
-        throw new NotImplementedException("meixie");
-
-    }
-  
-
 }

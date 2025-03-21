@@ -4,7 +4,7 @@ using UnityEngine;
 /// 肉鸽系统 
 /// 一个负责随机生成的系统
 /// </summary>
-public class SceneGenerator : BaseRogueGenerator<SceneGeneratorUnit>
+public class SceneGenerator : BaseRogueGenerator<SceneGeneratorUnit, SceneGeneratorConfig>
 {
     /// <summary>
     /// 当前游戏的地形环境
@@ -14,10 +14,13 @@ public class SceneGenerator : BaseRogueGenerator<SceneGeneratorUnit>
     //配置文件
     private Dictionary<int, SceneRandomConfig> SceneGeneratorConfig;
     private RoguelikeRandomizer SceneIDRandomizer;
-    public override BaseRogueConfig Generate(int seed)
+
+    public override SceneGeneratorConfig Generate()
     {
+        throw new System.NotImplementedException();
     }
-    public override SceneGeneratorUnit GenerateUnit(int seed)
+
+    public override SceneGeneratorUnit GenerateUnit()
     {
         throw new System.NotImplementedException();
     }
@@ -28,7 +31,7 @@ public class SceneGenerator : BaseRogueGenerator<SceneGeneratorUnit>
 
     }
 
-    public override void LoadConfiguration()
+    public override void LoadGenerateConfiguration()
     {
         SceneGeneratorConfig = ExcelBinarayLoader.Instance.GetDataContainer<SceneRandomConfig>();
     }

@@ -11,7 +11,7 @@ public class RogueLikeGeneratorSystem : ManagedSingleton<RogueLikeGeneratorSyste
     /// <summary>
     /// 各个肉鸽模块
     /// </summary>
-    private List<IRogueSystemModuel> moduels;
+    private List<IRogueGenerator> generators;
     private GlobalSettingGenerator globalSettingGenerator;
     public EventManager<E_GeneratorEvent> eventManager { get; private set; }
     /// <summary>
@@ -20,12 +20,21 @@ public class RogueLikeGeneratorSystem : ManagedSingleton<RogueLikeGeneratorSyste
     public override void Initialized()
     {
         //创建模块列表和通讯器
-        moduels = new List<IRogueSystemModuel>();
+        generators = new List<IRogueGenerator>();
         eventManager = new EventManager<E_GeneratorEvent>();
         //全局设定生成器
         globalSettingGenerator = new GlobalSettingGenerator();
-        globalSettingGenerator.Initialize();
         Debug.Log("肉鸽模块——初始化成功");
+        InitializedAllGenerator();
+        InitializedAllEmbeddedModules();
+    }
+    private void InitializedAllEmbeddedModules()
+    {
+
+    }
+    private void InitializedAllGenerator()
+    {
+        generators.Add(new SceneGenerator());
     }
     public void LoadConfig()
     {
@@ -38,6 +47,11 @@ public class RogueLikeGeneratorSystem : ManagedSingleton<RogueLikeGeneratorSyste
     {
         //先生成全局设定
         globalSetting = globalSettingGenerator.GenerateGlobalSetting(globalSeed);
+        //给所有模块加载Config
+        foreach (var generator in generators)
+        {
+            (generator).LoadGlobalSetting(globalSetting);
+        }
     }
 
     /// <summary>
@@ -58,30 +72,6 @@ public class RogueLikeGeneratorSystem : ManagedSingleton<RogueLikeGeneratorSyste
     /// </summary>
     public void UpdateNextProgress(float progress)
     {
-        _randomProgress = Mathf.Clamp(progress, 0, 100);
     }
 
-    /// <summary>
-    /// 计算局部种子。
-    /// </summary>
-    private int CalculateLocalSeed(int offset)
-    {
-        return _globalSeed + offset + (int)(_randomProgress * 100);
-    }
-
-    /// <summary>
-    /// 初始化各个肉鸽系统各个模块
-    /// </summary>
-    public void InitializeGeneratorModules()
-    {
-        //全局种子管理器
-        moduels.Add(new SeedManager());
-        //场景生成器
-        moduels.Add(new SceneGenerator());
-        //每个模块初始化
-        foreach (var moduel in moduels)
-        {
-            moduel.Initialize();
-        }
-    }
 }

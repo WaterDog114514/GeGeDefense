@@ -28,6 +28,10 @@ public static class BinaryManager
     }
     public static void SaveToPath(object obj, string path)
     {
+        if (string.IsNullOrEmpty(path))
+        {
+            throw new Exception("序列化时候path为null");
+        }
         using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write))
         {
             BinaryFormatter bf = new BinaryFormatter();

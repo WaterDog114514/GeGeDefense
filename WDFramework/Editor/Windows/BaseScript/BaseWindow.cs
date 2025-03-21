@@ -19,7 +19,6 @@ namespace WDEditor
         where Data : BaseWindowData
         where WinDraw : BaseWindowDraw<Data>
     {
-
         //窗口绘制者
         public WinDraw winDraw;
         //窗口数据类

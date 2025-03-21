@@ -13,7 +13,7 @@ using System.Reflection;
 public static class ReflectionHelper
 {
     /// <summary>
-    /// 获取某类型的所有子类（包括所有已加载的程序集）
+    /// 获取某非泛型的类型的所有子类（包括所有已加载的程序集）
     /// </summary>
     /// <param name="baseType">基类类型</param>
     /// <returns>所有子类的类型列表</returns>
@@ -62,27 +62,62 @@ public static class ReflectionHelper
         }
         return null; // 如果没有找到，返回 null
     }
+
+
     /// <summary>
-    /// 判断某个类型是否继承自指定的泛型基类
+    /// 获取某泛型基类型的所有子类（包括所有已加载的程序集）
     /// </summary>
-    private static bool IsSubclassOfGeneric(Type type, Type genericBaseType)
+    /// <param name="genericBaseType">泛型基类型</param>
+    /// <returns>所有子类的类型列表</returns>
+    public static List<Type> GetSubclassesOfGenericType(Type genericBaseType)
     {
-        if (type.BaseType == null)
-            return false;
-
-        // 递归检查所有父类
-        while (type != null && type != typeof(object))
+        // 检查传入的类型是否是泛型类型
+        if (genericBaseType == null || !genericBaseType.IsGenericType)
         {
-            // 检查是否是泛型类型
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == genericBaseType)
-            {
-                return true; // 找到了匹配的泛型基类
-            }
-
-            type = type.BaseType; // 移动到父类
+            throw new ArgumentException("传入的类型必须是泛型类型", nameof(genericBaseType));
         }
 
-        return false; // 没有找到匹配的泛型基类
+        // 获取所有已加载的程序集
+        return AppDomain.CurrentDomain.GetAssemblies()
+            .SelectMany(assembly =>
+            {
+                try
+                {
+                    return assembly.GetTypes();
+                }
+                catch (ReflectionTypeLoadException ex)
+                {
+                    // 如果加载类型时出错，返回有效的类型
+                    return ex.Types.Where(t => t != null);
+                }
+            })
+            .Where(t => t != null && t.IsClass && !t.IsAbstract && IsSubclassOfGenericType(t, genericBaseType))
+            .ToList();
+    }
+    /// <summary>
+    /// 检查类型是否是泛型基类的子类
+    /// </summary>
+    /// <param name="type">要检查的类型</param>
+    /// <param name="genericBaseType">泛型基类</param>
+    /// <returns>如果是子类返回 true，否则返回 false</returns>
+    private static bool IsSubclassOfGenericType(Type type, Type genericBaseType)
+    {
+        // 如果类型或基类为空，返回 false
+        if (type == null || genericBaseType == null)
+            return false;
+
+        // 遍历类型的继承链
+        while (type != null && type != typeof(object))
+        {
+            // 如果当前类型是泛型类型，并且与目标泛型基类的定义匹配
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == genericBaseType)
+                return true;
+
+            // 继续向上查找基类型
+            type = type.BaseType;
+        }
+
+        return false;
     }
     //根据string遍历所有程序集，找到对应Type
     public static Type FindTypeInAssemblies(string typeName)

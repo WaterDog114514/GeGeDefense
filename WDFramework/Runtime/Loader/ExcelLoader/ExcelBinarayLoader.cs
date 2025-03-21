@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class ExcelBinarayLoader : Singleton<ExcelBinarayLoader>
 {
-    private Dictionary<Type, IDictionary> dic_LoadedContainer = new Dictionary<Type, IDictionary>();
+    private Dictionary<string, IDictionary> dic_LoadedContainer = new Dictionary<string, IDictionary>();
     public ExcelBinarayLoader()
     {
     }
@@ -19,16 +19,14 @@ public class ExcelBinarayLoader : Singleton<ExcelBinarayLoader>
     private string ConfigurationDiretoryPath;
     private const string FileSuffix = ".waterdogdata";
     //KeyType：字典Key，ConfigType：Configuration存储类型
-    public IDictionary GetDataContainer(Type ConfigType)
+    public IDictionary GetDataContainer(Type ConfigType,string FileName)
     {
-        if (dic_LoadedContainer.ContainsKey(ConfigType)) return dic_LoadedContainer[ConfigType];
-        //return GetDataContainer<TKey, TConfigType>($"{typeof(TKey).Name}.waterdogdata");
-        //通过反射全集进行查找Type
-     
-        //找到附属类型，就开始进行加载，从StreamingAssets里加载
+        //根据是否有加载名进行选择加载
+        string loadFileName = string.IsNullOrEmpty(FileName) ? ConfigType.Name + "Container" : FileName;
+        if (dic_LoadedContainer.ContainsKey(loadFileName)) return dic_LoadedContainer[loadFileName];
         else
         {
-            return LoadExcelContainer(ConfigType, ConfigType.Name + "Container");
+            return LoadExcelContainer(ConfigType, loadFileName);
         }
     }
     /// <summary>
@@ -36,24 +34,25 @@ public class ExcelBinarayLoader : Singleton<ExcelBinarayLoader>
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    //TKey：字典Key，TConfigType：Configuration存储类型
-    public Dictionary<int,TConfigType> GetDataContainer<TConfigType>() where TConfigType : ExcelConfiguration
+    public Dictionary<int, TConfigType> GetDataContainer<TConfigType>(string FileName = null) where TConfigType : ExcelConfiguration
     {
-        if (!dic_LoadedContainer.ContainsKey(typeof(TConfigType)))
+        //根据是否有加载名进行选择加载
+        string loadFileName = string.IsNullOrEmpty(FileName) ? typeof(TConfigType).Name + "Container" : FileName;
+        if (!dic_LoadedContainer.ContainsKey(loadFileName))
         {
-            var dictionary =  LoadExcelContainer(typeof(TConfigType), typeof(TConfigType).Name + "Container");
+            var dictionary = LoadExcelContainer(typeof(TConfigType), loadFileName);
             return dictionary as Dictionary<int, TConfigType>;
         }
-        return dic_LoadedContainer[typeof(TConfigType)] as Dictionary<int, TConfigType>;
+        return dic_LoadedContainer[loadFileName] as Dictionary<int, TConfigType>;
     }
 
     /// <summary>
     /// 将通过StreamingAssets中加载文件  
     /// </summary>
     /// <param name="FileName">文件名(包括后缀名)</param>
-    private IDictionary LoadExcelContainer( Type ConfigType, string FileName)
+    private IDictionary LoadExcelContainer(Type ConfigType, string FileName)
     {
-        var path = Application.streamingAssetsPath + "/" + FileName+FileSuffix;
+        var path = Path.Combine(Application.streamingAssetsPath, FileName + FileSuffix);
         if (!File.Exists(path))
         {
             Debug.Log($"加载失败，不存在此{FileName}文件");
@@ -84,13 +83,13 @@ public class ExcelBinarayLoader : Singleton<ExcelBinarayLoader>
         }
 
         // 更新或添加到字典
-        if (dic_LoadedContainer.ContainsKey(ConfigType))
+        if (dic_LoadedContainer.ContainsKey(FileName))
         {
-            dic_LoadedContainer[ConfigType] = containerValue;
+            dic_LoadedContainer[FileName] = containerValue;
         }
         else
         {
-            dic_LoadedContainer.Add(ConfigType, containerValue);
+            dic_LoadedContainer.Add(FileName, containerValue);
         }
 
         return containerValue;

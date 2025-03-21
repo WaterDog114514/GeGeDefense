@@ -28,7 +28,7 @@ namespace WDEditor
         {
             //防止未命名报空
             string title = string.IsNullOrEmpty(data.Title)? "没有命名的编辑器" : data.Title;
-            window.titleContent = new GUIContent(title, data.Icon.texture);
+            window.titleContent = new GUIContent(title);
             //初始化大小
             window.position = new Rect(window.position.position,data.currentWindowSize.vector2);
         }
@@ -37,7 +37,7 @@ namespace WDEditor
         {
             //获取当前窗口宽高再绘制
             data.currentWindowSize.vector2 = new Vector2(WindowRect.width, WindowRect.height);
-            GUI.DrawTexture(new Rect(Vector2.zero, data.currentWindowSize.vector2),data.BackgroundTexture.texture, ScaleMode.StretchToFill);
+            //GUI.DrawTexture(new Rect(Vector2.zero, data.currentWindowSize.vector2),data.BackgroundTexture.texture, ScaleMode.StretchToFill);
         }
         /// <summary>
         /// 绘制控件

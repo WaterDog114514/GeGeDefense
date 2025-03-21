@@ -1,9 +1,6 @@
-using Codice.Utils;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.iOS;
-
 
 namespace WDEditor
 {
@@ -12,22 +9,33 @@ namespace WDEditor
     /// </summary>
     public static class EditorPathHelper
     {
+        // 常量定义
+        private const string EDITOR_FOLDER_NAME = "WDFramework";
+        private const string EDITOR_SUBFOLDER = "Editor";
+        private const string RESOURCE_ASSET_FOLDER = "resourceAsset";
+        private const string WIN_DATA_FOLDER = "WinData";
+        private const string TEXTURE_FOLDER = "Texture";
+        private const string ASSETS_FOLDER = "Assets";
+
         /// <summary>
         /// 编辑器窗口数据存储位置
         /// </summary>
         public static string EditorWinDataPath =>
-            GetPathOrCreateDirectory(Path.Combine(EditorAssetPath, "WinData"));
+            GetPathOrCreateDirectory(Path.Combine(EditorAssetPath, WIN_DATA_FOLDER));
+
         /// <summary>
         /// 编辑器资源resourceAsset文件夹位置
         /// </summary>
         public static string EditorAssetPath =>
-            GetPathOrCreateDirectory(Path.Combine(DirectoryPath, "resourceAsset"));
+            GetPathOrCreateDirectory(Path.Combine(DirectoryPath, RESOURCE_ASSET_FOLDER));
+
         /// <summary>
         /// 贴图资源文件夹
         /// </summary>
-        public static string EditorTexturePath => GetPathOrCreateDirectory(Path.Combine(EditorAssetPath, "Texture"));
+        public static string EditorTexturePath => GetPathOrCreateDirectory(Path.Combine(EditorAssetPath, TEXTURE_FOLDER));
 
         private static string _directoryPath;
+
         /// <summary>
         /// 编辑器文件夹绝对路径
         /// </summary>
@@ -37,21 +45,21 @@ namespace WDEditor
             {
                 return _directoryPath;
             }
-
         }
-        //定位编辑器目录
+
+        // 定位编辑器目录
         [InitializeOnLoadMethod]
         public static void LocatedEditorDirection()
         {
             if (string.IsNullOrEmpty(_directoryPath))
             {
-
-                //直接递归搜索
-                _directoryPath = LocalDirectory("WDFramework") + "\\Editor";
+                // 直接递归搜索
+                _directoryPath = LocalDirectory(EDITOR_FOLDER_NAME) + "\\" + EDITOR_SUBFOLDER;
                 EditorPrefs.SetString("MainEditorPath", _directoryPath);
                 if (string.IsNullOrEmpty(_directoryPath)) Debug.LogError("无法找到水汪汪编辑器，建议埋了吧");
             }
         }
+
         /// <summary>
         /// 获取到编辑器文件夹路径 如果不存在文件夹就创建一个
         /// </summary>
@@ -63,9 +71,9 @@ namespace WDEditor
             if (!IsAbsolute)
             {
                 // 确保传入的相对路径不以 "Assets/" 开头
-                if (targetPath.StartsWith("Assets/"))
+                if (targetPath.StartsWith(ASSETS_FOLDER + "/"))
                 {
-                    targetPath = targetPath.Substring("Assets/".Length);
+                    targetPath = targetPath.Substring((ASSETS_FOLDER + "/").Length);
                 }
                 // 将相对路径组合到 Application.dataPath
                 targetPath = Path.Combine(Application.dataPath, targetPath);
@@ -81,7 +89,8 @@ namespace WDEditor
             // 返回目标路径
             return targetPath;
         }
-        //定位搜索工程文件夹下某个资源文件夹的路径 （会使用下面的递归搜索）
+
+        // 定位搜索工程文件夹下某个资源文件夹的路径 （会使用下面的递归搜索）
         public static string LocalDirectory(string folderName)
         {
             // 获取项目的 Assets 目录路径
@@ -89,6 +98,7 @@ namespace WDEditor
             // 调用递归搜索函数
             return FindFolderRecursive(assetsPath, folderName);
         }
+
         // 递归搜索文件夹
         private static string FindFolderRecursive(string currentPath, string folderName)
         {
@@ -116,6 +126,7 @@ namespace WDEditor
             // 如果未找到文件夹，返回 null
             return null;
         }
+
         /// <summary>
         /// 去掉绝对路径 保留Asset开头的，方便资源加载
         /// </summary>
@@ -133,7 +144,7 @@ namespace WDEditor
             if (absolutePath.StartsWith(dataPath))
             {
                 // 去掉前缀 Application.dataPath，并在相对路径前加上 "Assets/"
-                return "Assets" + absolutePath.Substring(dataPath.Length);
+                return ASSETS_FOLDER + absolutePath.Substring(dataPath.Length);
             }
             else
             {
@@ -141,6 +152,7 @@ namespace WDEditor
                 return null;
             }
         }
+
         #region 搜索 Assets 文件夹中的某个文件，并通过后缀名进行筛选
         /// <summary>
         /// 递归搜索 Assets 文件夹中的某个文件，并通过后缀名进行筛选。后缀名，需加点！！
@@ -158,7 +170,6 @@ namespace WDEditor
             if (string.IsNullOrEmpty(GetPath))
                 Debug.LogWarning("未找到文件：" + fileName);
             return GetPath;
-
         }
 
         // 递归搜索文件，并通过后缀名进行筛选
@@ -189,7 +200,6 @@ namespace WDEditor
                         }
                     }
                 }
-
             }
             // 获取当前路径下的所有子目录
             string[] directories = Directory.GetDirectories(currentPath);
@@ -205,8 +215,8 @@ namespace WDEditor
             // 如果未找到文件，返回 null
             return null;
         }
-
         #endregion
+
         /// <summary>
         /// 相对Assets路径或绝对路径判断  非常牛逼，很全能
         /// </summary>
@@ -218,7 +228,8 @@ namespace WDEditor
             // 调用绝对路径的检查方法
             return File.Exists(newPath);
         }
-        //取到绝对路径 无论传的绝对还是相对，都会出绝对路径
+
+        // 取到绝对路径 无论传的绝对还是相对，都会出绝对路径
         public static string GetAbsolutePath(string path)
         {
             // 判断是否是绝对路径
@@ -230,7 +241,7 @@ namespace WDEditor
             else
             {
                 // 检查相对路径是否以 "Assets/" 开头，避免重复拼接
-                if (!path.StartsWith("Assets"))
+                if (!path.StartsWith(ASSETS_FOLDER))
                 {
                     // 将相对路径与 Application.dataPath 拼接
                     path = Path.Combine(Application.dataPath, path);
@@ -238,7 +249,7 @@ namespace WDEditor
                 else
                 {
                     // 去掉 "Assets/"，拼接到 Application.dataPath 后面
-                    path = Path.Combine(Application.dataPath, path.Substring("Assets/".Length));
+                    path = Path.Combine(Application.dataPath, path.Substring((ASSETS_FOLDER + "/").Length));
                 }
                 return path;
             }
@@ -246,6 +257,4 @@ namespace WDEditor
 
 
     }
-
-
 }

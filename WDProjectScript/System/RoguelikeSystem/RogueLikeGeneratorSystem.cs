@@ -19,52 +19,39 @@ public class RogueLikeGeneratorSystem : ManagedSingleton<RogueLikeGeneratorSyste
     /// </summary>
     public override void Initialized()
     {
+        InitializedAllEmbeddedModules();
+        InitializedAllGenerator();
+        Debug.Log("肉鸽模块——初始化成功");
+    }
+    private void InitializedAllEmbeddedModules()
+    {
         //创建模块列表和通讯器
         generators = new List<IRogueGenerator>();
         eventManager = new EventManager<E_GeneratorEvent>();
         //全局设定生成器
         globalSettingGenerator = new GlobalSettingGenerator();
-        Debug.Log("肉鸽模块——初始化成功");
-        InitializedAllGenerator();
-        InitializedAllEmbeddedModules();
-    }
-    private void InitializedAllEmbeddedModules()
-    {
-
     }
     private void InitializedAllGenerator()
     {
-        generators.Add(new SceneGenerator());
-    }
-    public void LoadConfig()
-    {
-
+        generators.Add(new LevelNodeGenerator());
     }
     /// <summary>
     /// 开始生成全部关卡流程
     /// </summary>
-    public void StartGenerate(int globalSeed = -1)
+    public RogueGenerateProcessConfig StartGenerate(int globalSeed = -1)
     {
         //先生成全局设定
         globalSetting = globalSettingGenerator.GenerateGlobalSetting(globalSeed);
         //给所有模块加载Config
         foreach (var generator in generators)
         {
-            (generator).LoadGlobalSetting(globalSetting);
+           (generator).InitializeRandomizer(globalSetting);
         }
-    }
-
-    /// <summary>
-    /// 生成所有关卡
-    /// </summary>
-    /// <param name="globalSeed"></param>
-    private void GenerateAllLevel()
-    {
-        //按群系流程生成
-        for (int i = 0; i < globalSetting.biomeProcessDatas.Count; i++)
-        {
-
-        }
+        //生成节点配置
+        var levelNodeConfig = eventManager.TriggerRequest<LevelNodeGeneratorConfig>(E_GeneratorEvent.GenerateAllLevelNode);
+        var config = new RogueGenerateProcessConfig();
+        config.levelNodeGeneratorConfig = levelNodeConfig;
+        return config;
     }
 
     /// <summary>

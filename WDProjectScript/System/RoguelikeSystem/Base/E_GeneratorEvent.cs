@@ -12,4 +12,8 @@ public enum E_GeneratorEvent
     ///模块加载全局设定
     /// </summary>
     LoadGlobalGenerateSetting,
+    /// <summary>
+    /// 生成所有关卡节点
+    /// </summary>
+    GenerateAllLevelNode
 }

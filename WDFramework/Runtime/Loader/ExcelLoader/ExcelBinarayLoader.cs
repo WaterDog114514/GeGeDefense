@@ -37,7 +37,7 @@ public class ExcelBinarayLoader : Singleton<ExcelBinarayLoader>
     public Dictionary<int, TConfigType> GetDataContainer<TConfigType>(string FileName = null) where TConfigType : ExcelConfiguration
     {
         //根据是否有加载名进行选择加载
-        string loadFileName = string.IsNullOrEmpty(FileName) ? typeof(TConfigType).Name + "Container" : FileName;
+        string loadFileName = string.IsNullOrEmpty(FileName) ? typeof(TConfigType).Name  : FileName;
         if (!dic_LoadedContainer.ContainsKey(loadFileName))
         {
             var dictionary = LoadExcelContainer(typeof(TConfigType), loadFileName);

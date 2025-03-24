@@ -10,13 +10,8 @@ public class GameSystemSetting : InitializedProjectSetting
     public override void RegisterProjectSetting()
     {
         Debug.Log("游戏系统注册已经实现初始化");
-        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(Initialization_LifeCycleState), typeof(sonSystem));
+        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(Game_LifeCycle), typeof(RogueLikeGeneratorSystem));
 
-        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(MainMenu_LifeCycle), typeof(sonSystem));
-        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(MainMenu_LifeCycle), typeof(babaSystem));
-
-        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(Game_LifeCycle), typeof(babaSystem));
-        GameSystemManager.Instance.RegisterAutoLauncherSystem(typeof(Game_LifeCycle), typeof(monoSisterSystem));
 
     }
 }

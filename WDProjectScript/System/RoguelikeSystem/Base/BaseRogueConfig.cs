@@ -1,8 +1,7 @@
 // ÏîÄ¿²ã/RogueSystem/Base/BaseRogueConfig.cs
 using UnityEngine;
-
-public abstract class BaseRogueConfig : ScriptableObject
+[System.Serializable]
+public abstract class BaseRogueConfig 
 {
-    public bool useWeightedRandom = true;
-    public int defaultSeed = 0;
+
 }

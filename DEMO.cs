@@ -1,38 +1,47 @@
 using Spine.Unity;
+using System.Collections.Generic;
 using UnityEngine;
 using WDFramework;
 
 public class DEMO : MonoBehaviour
 {
+    public int seed;
+    Randomizer<int> randomizer;
+    RandomRegulator<int> randomRegulator;
+    Dictionary<int, int> result;
     void Start()
     {
-
+        result = new Dictionary<int, int>();
+        randomRegulator = new RandomRegulator<int>(seed);
+        randomizer = new Randomizer<int>(seed);
+        randomizer.Additems(
+            new List<int>() { 114514, 8890, 6666 },
+            new List<int>() { 10, 5, 3 }
+            );
     }
-    public int seed = 12345;
     private void OnGUI()
     {
-       
+
     }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.K))
         {
-            // 使用种子初始化
-            var weightedSelector = new WeightedRandomSelector<string>(seed);
-            var equalSelector = new EqualRandomSelector<string>(seed);
-
-            // 添加物品
-            weightedSelector.AddItem("Apple", 1);
-            weightedSelector.AddItem("Banana", 2);
-            weightedSelector.AddItem("Cherry", 3);
-
-            equalSelector.AddItem("Apple");
-            equalSelector.AddItem("Banana");
-            equalSelector.AddItem("Cherry");
-
-            // 获取随机物品
-            Debug.Log("Weighted Random Item: " + weightedSelector.GetRandomItem());
-            Debug.Log("Equal Random Item: " + equalSelector.GetRandomItem());
+            randomizer.ResetSeed(seed);
+            result.Clear();
+            var list = randomizer.GetProportionRandom(18);
+            for (int i = 0; i < list.Count; i++)
+            {
+                int res = list[i];
+                if (result.ContainsKey(res))
+                {
+                    result[res]++;
+                }
+                else
+                {
+                    result[res] = 1;
+                }
+            }
         }
     }
 }

@@ -2,10 +2,10 @@
 /// 生成器的基类，所有具体生成器应继承此类。
 /// </summary>
 /// <typeparam name="TGeneratorUnit">生成的基本单位类型</typeparam>
-public abstract class BaseRogueGenerator<TUnit, TConfig> : IEventManager<E_GeneratorEvent>, IRogueGeneratorModuel<TUnit, TConfig> where TUnit : BaseGeneratorUnit where TConfig : BaseRogueConfig
+public abstract class BaseRogueGenerator<TConfig> : IEventManager<E_GeneratorEvent>, IRogueGeneratorModuel<TConfig> where TConfig : BaseRogueConfig
 {
     public GlobalRandomSetting globalSetting { get; private set; }
-    public SeedCalculater seedCalculater { get; private set; }
+    public SeedCalculater seedCalculater { get; protected set; }
 
     public EventManager<E_GeneratorEvent> eventManager => RogueLikeGeneratorSystem.Instance.eventManager;
 
@@ -24,15 +24,9 @@ public abstract class BaseRogueGenerator<TUnit, TConfig> : IEventManager<E_Gener
     public abstract void Initialize();
 
     public abstract TConfig Generate();
-    public abstract TUnit GenerateUnit();
     /// <summary>
     /// 加载随机好的全局设定
     /// </summary>
     /// <param name="setting"></param>
-    public virtual void LoadGlobalSetting(GlobalRandomSetting setting)
-    {
-        globalSetting = setting;
-        seedCalculater = new SeedCalculater(setting.GlobalSeed);
-    }
-
+    public abstract void InitializeRandomizer(GlobalRandomSetting setting);
 }

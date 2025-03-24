@@ -28,5 +28,12 @@ public class SeedCalculater
         LevelNodeIndex++;
         return localSeed;
     }
-
+    /// <summary>
+    /// …œ“ª≤„¬•
+    /// </summary>
+    public void UpdateNextLayer()
+    {
+        currentLayer++;
+        currentLayerIndex = 0;
+    }
 }
